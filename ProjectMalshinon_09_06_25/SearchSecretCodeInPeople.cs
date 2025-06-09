@@ -1,38 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
-
-
 namespace ProjectMalshinon_09_06_25
 {
-    internal class SearchPersonInPeople : DAL
-    {
-
-
-
-        /// <summary>
-        /// If the first name exists in the "People" table returns true otherwise returns false.
-        /// </summary>
-        /// <param name="firstName"></param>
-        /// <returns></returns>
-
-        public bool SearchPerson(string firstName) 
-        {
+    internal class SearchSecretCodeInPeople : DAL
+    {   
         
+        public  bool SecretCodeExistsInTabla(int secretCode)
+        {
+
+         
             bool result = false;
 
-            string query = @"SELECT FirstName FROM People WHERE FirstName = @firstName;";
+            string query = @"SELECT SecretCode FROM People WHERE SecretCode = @secretCode;";
 
             try
             {
                 using (var cmd = new MySqlCommand(query, _conn))
                 {
-                    cmd.Parameters.AddWithValue("@FirstName", firstName);
+                    cmd.Parameters.AddWithValue("@SecretCode", secretCode);
 
                     using (var reader = cmd.ExecuteReader())
                         if (reader.Read())
@@ -40,18 +30,18 @@ namespace ProjectMalshinon_09_06_25
                             result = true;
                         }
                 }
-           
+
 
             }
-            catch (MySqlException ex) 
+            catch (MySqlException ex)
             {
                 Console.WriteLine($"My SQL exception: {ex.Message}");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine($"General exception: {ex.Message}");
             }
-            finally 
+            finally
             {
                 CloseConnection();
             }
@@ -59,12 +49,5 @@ namespace ProjectMalshinon_09_06_25
 
 
         }
-
-
-
-
     }
-
-  
-    
 }

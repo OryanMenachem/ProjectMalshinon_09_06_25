@@ -11,7 +11,7 @@ namespace ProjectMalshinon_09_06_25
     internal class DAL
     {
         private string connStr = "server=localhost;user=root;password=;database=Malshinon";
-        private static MySqlConnection _conn;
+        protected static MySqlConnection _conn;
 
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace ProjectMalshinon_09_06_25
                 _conn = new MySqlConnection(connStr);
             }
 
-            if (_conn.State == System.Data.ConnectionState.Closed)  // Makes sure the connection is closed.
+            if (_conn != null && _conn.State == System.Data.ConnectionState.Closed)  // Makes sure the connection is closed.
             {
                 _conn.Open();
                 Console.WriteLine("Connection successful.");

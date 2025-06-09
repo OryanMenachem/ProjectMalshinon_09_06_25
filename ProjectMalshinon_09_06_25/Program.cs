@@ -12,7 +12,11 @@ namespace ProjectMalshinon_09_06_25
         {
             SearchPersonInPeople searchPersonInPeople = new SearchPersonInPeople();
 
-            Console.WriteLine(searchPersonInPeople.SearchPerson("Darya"));
+
+            if (!searchPersonInPeople.SearchPerson("Dary"))
+            {
+                Console.WriteLine("efwef");
+            }
         }
     }
 }
