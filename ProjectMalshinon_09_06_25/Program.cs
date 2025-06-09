@@ -10,13 +10,12 @@ namespace ProjectMalshinon_09_06_25
     {
         static void Main(string[] args)
         {
-            SearchPersonInPeople searchPersonInPeople = new SearchPersonInPeople();
+            
+            InsertRowInTable insertRowInTable = new InsertRowInTable("Nehoray","Menachem", CreateSecretCode.GetNewSecretCode());
+
+            
 
 
-            if (!searchPersonInPeople.SearchPerson("Dary"))
-            {
-                Console.WriteLine("efwef");
-            }
         }
     }
 }
