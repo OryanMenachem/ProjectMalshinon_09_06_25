@@ -11,27 +11,17 @@ namespace ProjectMalshinon_09_06_25
     internal class DAL
     {
         private string connStr = "server=localhost;user=root;password=;database=Malshinon";
-        private MySqlConnection conn;
+        private static MySqlConnection _conn;
 
 
-        public DAL()  // Creates a single instance of "conn".
-        {
-            if (conn == null)
-            {
-                conn = new MySqlConnection(connStr);
-            }
-        
-        }
-        public void  OpenConnection() // Opens the connection to the database.
+        /// <summary>
+        /// Runs the method - OpenConnection().
+        /// </summary>
+        public DAL() 
         {
             try
             {
-                if (conn.State == System.Data.ConnectionState.Closed)  // Makes sure the connection is closed.
-                {
-                    conn.Open();
-                    Console.WriteLine("Connection successful.");
-                }
-
+                OpenConnection();
             }
             catch (MySqlException ex)
             {
@@ -41,25 +31,47 @@ namespace ProjectMalshinon_09_06_25
             {
                 Console.WriteLine($"General Exception: {ex.Message}");
             }
-      
+     
+        
         }
-          
 
-
-        public void CloseConnection() // Closes the connection to the database.
+        /// <summary>
+        ///  Creates a new connection to the database and opens it.
+        /// </summary>
+        /// <returns>MySqlConnection value</returns>
+        public MySqlConnection OpenConnection() 
         {
-            if (conn.State == System.Data.ConnectionState.Open) // Makes sure the connection is open.
+            if (_conn == null)
             {
-                conn.Close(); 
-                conn = null;
+                _conn = new MySqlConnection(connStr);
+            }
+
+            if (_conn.State == System.Data.ConnectionState.Closed)  // Makes sure the connection is closed.
+            {
+                _conn.Open();
+                Console.WriteLine("Connection successful.");
+            }
+            return _conn;
+
+
+
+
+        }
+
+
+        /// <summary>
+        /// Closes the connection to the database.
+        /// </summary>
+        public void CloseConnection() 
+        {
+            if (_conn.State == System.Data.ConnectionState.Open) // Makes sure the connection is open.
+            {
+                _conn.Close(); 
+                _conn = null;
                 Console.WriteLine("The connection was successfully disconnected.");
             }
         }
 
-        public MySqlConnection GetConnection() // Access to the show - "coon".
-        {
-            return conn;
-        }
 
 
     }
