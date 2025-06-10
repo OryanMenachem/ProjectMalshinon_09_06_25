@@ -14,10 +14,21 @@ namespace ProjectMalshinon_09_06_25
             //InsertRowInTable insertRowInTable = new InsertRowInTable("Nehoray","Menachem", CreateSecretCode.GetNewSecretCode());
 
 
-            if (SearchValueInMalshinonDB.GetResult("People","FirstName","Darya"))
+            //if (SearchValueInMalshinonDB.GetResult("People","FirstName","Darya"))
+            //{
+            //    Console.WriteLine("cascas");
+            //}
+            Console.WriteLine("Enter a Message:");
+
+            string message = Console.ReadLine();
+
+            string[] fullName = SearchingNameInMessage.SearchName(message);
+
+            if (!SearchValueInMalshinonDB.GetResult("People", "FirstName", fullName[0]))
             {
-                Console.WriteLine("cascas");
+                InsertRowInTable.Insert(fullName[0], fullName[1], CreateSecretCode.GetNewSecretCode(), "target");
             }
+           
 
 
 

@@ -9,7 +9,7 @@ namespace ProjectMalshinon_09_06_25
 {
     internal class InsertRowInTable : DAL
     {
-        public  InsertRowInTable(string firstName, string lastName, int secretCode, string type = "reporter", int num_reports = 0, int num_mentions = 0) : base()
+        private InsertRowInTable(string firstName, string lastName, int secretCode, string type = "reporter", int num_reports = 0, int num_mentions = 0) 
         {
             string query = @"INSERT INTO People(FirstName, LastName, SecretCode, Type, Num_reports, Num_mentions) VALUES (@firstName, @lastName, @secretCode, @type, @num_reports, @num_mentions)";
 
@@ -41,6 +41,12 @@ namespace ProjectMalshinon_09_06_25
                 CloseConnection();
             }
             Console.WriteLine("Added successfully.");
+        }
+
+        public static void Insert(string firstName, string lastName, int secretCode, string type = "reporter", int num_reports = 0, int num_mentions = 0)
+        {
+            InsertRowInTable insertRowInTable = new InsertRowInTable(firstName, lastName, secretCode, type, num_reports, num_mentions);
+            
         }
     
     }
