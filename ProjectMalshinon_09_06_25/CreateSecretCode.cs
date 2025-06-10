@@ -36,6 +36,7 @@ namespace ProjectMalshinon_09_06_25
         public static int GetNewSecretCode()
         {
             int newSecretCode = GeneratSecretCode();
+
             return newSecretCode;
         }
     }

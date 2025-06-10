@@ -11,43 +11,33 @@ namespace ProjectMalshinon_09_06_25
         public static string[] SearchName(string message)
         {
             string[] fullName = new string[2];
-      
-            string firstName = "";
-            string lastName = "";
+
+            int cuonter = 0 ;
+
+            bool flag = false;
 
             for (int i = 0; i < message.Length; i++)
-            {
-                if (message[i] == ' ')
+            {              
+                if ((char.IsLetter(message[i]) && message[i].ToString() == message[i].ToString().ToUpper()) || flag)
                 {
-                 
-                    if (message[i + 1].ToString() == message[i + 1].ToString().ToUpper())
+                    flag = true;
+                   
+                    if (cuonter == 2)
                     {
-                        for (int j = i + 1; j < message.Length; j++)
-                        {
-                            if (message[j] == ' ')
-                            {
-                                for (int u = j + 1; u < message.Length; u++)
-                                {
-                                    if (message[u] == ' ')
-                                    {
-                                        fullName[0] = firstName;
-                                        fullName[1] = lastName;
-                                        return fullName;
-                                    }
-                                    lastName += message[u];
+                        break;
+                    }
 
-                                }
-                                break;
-                            }
-                            firstName += message[j];
-                        }
+                    fullName[cuonter] += message[i];
+
+                    if (message[i] == ' ')
+                    {
+                        cuonter++;
                     }
                 }
-                
+         
             }
 
             return fullName;
-
         }
     }
 }

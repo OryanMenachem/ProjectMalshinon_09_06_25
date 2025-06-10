@@ -11,24 +11,33 @@ namespace ProjectMalshinon_09_06_25
         static void Main(string[] args)
         {
 
-            //InsertRowInTable insertRowInTable = new InsertRowInTable("Nehoray","Menachem", CreateSecretCode.GetNewSecretCode());
 
 
-            //if (SearchValueInMalshinonDB.GetResult("People","FirstName","Darya"))
-            //{
-            //    Console.WriteLine("cascas");
-            //}
+
             Console.WriteLine("Enter a Message:");
 
             string message = Console.ReadLine();
 
             string[] fullName = SearchingNameInMessage.SearchName(message);
 
-            if (!SearchValueInMalshinonDB.GetResult("People", "FirstName", fullName[0]))
-            {
-                InsertRowInTable.Insert(fullName[0], fullName[1], CreateSecretCode.GetNewSecretCode(), "target");
-            }
-           
+
+
+
+
+            InsertRowInTablePeople.Insert(fullName[0], fullName[1], CreateSecretCode.GetNewSecretCode(), "target");
+
+
+            Person reporterId = SelectFromTable.GetPerson("Darya");
+            Console.WriteLine(reporterId.FirstName);
+
+
+            Person targetId = SelectFromTable.GetPerson(fullName[0]);
+
+
+
+            InsertRowInTableIntelReports.Insert(reporterId.Id, targetId.Id, message);
+
+
 
 
 

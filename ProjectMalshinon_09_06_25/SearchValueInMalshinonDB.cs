@@ -27,33 +27,36 @@ namespace ProjectMalshinon_09_06_25
         {
         
             bool result = false;
-   
-            string query = @"SELECT ";
-            query += $"{column} FROM {table} WHERE {column} = @{value};";
+
+            string query = $@"SELECT {column} FROM {table} WHERE {column} = @{value};";
            
+
             //Console.WriteLine(query);
             try
             {
                 using (var cmd = new MySqlCommand(query, _conn))
                 {
-                    cmd.Parameters.AddWithValue(@value, value);
-
+                    cmd.Parameters.AddWithValue($@"{value}", value);
                     using (var reader = cmd.ExecuteReader())
+                    {
                         if (reader.Read())
                         {
                             result = true;
                         }
+                    }
+                    
                 }
+           
            
 
             }
             catch (MySqlException ex) 
             {
-                Console.WriteLine($"My SQL exception: {ex.Message}");
+                Console.WriteLine($"My SQL exception: {ex.Message}. class: SearchValueInMalshinonDB method: SearchPerson");
             }
             catch (Exception ex) 
             {
-                Console.WriteLine($"General exception: {ex.Message}");
+                Console.WriteLine($"General exception: {ex.Message}.  class: SearchValueInMalshinonDB method: SearchPerson");
             }
             finally 
             {

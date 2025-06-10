@@ -7,9 +7,9 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectMalshinon_09_06_25
 {
-    internal class InsertRowInTable : DAL
+    internal class InsertRowInTablePeople : DAL
     {
-        private InsertRowInTable(string firstName, string lastName, int secretCode, string type = "reporter", int num_reports = 0, int num_mentions = 0) 
+        private InsertRowInTablePeople(string firstName, string lastName, int secretCode, string type = "reporter", int num_reports = 0, int num_mentions = 0) 
         {
             string query = @"INSERT INTO People(FirstName, LastName, SecretCode, Type, Num_reports, Num_mentions) VALUES (@firstName, @lastName, @secretCode, @type, @num_reports, @num_mentions)";
 
@@ -30,11 +30,11 @@ namespace ProjectMalshinon_09_06_25
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"MySQL Error: {ex.Message}");
+                Console.WriteLine($"MySQL Error: {ex.Message}. class: InsertRowInTablePeople method: constructor");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"General Error: {ex.Message}");
+                Console.WriteLine($"General Error: {ex.Message}. class: InsertRowInTablePeople method: constructor");
             }
             finally
             {
@@ -45,7 +45,7 @@ namespace ProjectMalshinon_09_06_25
 
         public static void Insert(string firstName, string lastName, int secretCode, string type = "reporter", int num_reports = 0, int num_mentions = 0)
         {
-            InsertRowInTable insertRowInTable = new InsertRowInTable(firstName, lastName, secretCode, type, num_reports, num_mentions);
+            InsertRowInTablePeople insertRowInTable = new InsertRowInTablePeople(firstName, lastName, secretCode, type, num_reports, num_mentions);
             
         }
     
