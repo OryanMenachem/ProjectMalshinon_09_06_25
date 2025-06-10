@@ -10,10 +10,15 @@ namespace ProjectMalshinon_09_06_25
     {
         static void Main(string[] args)
         {
-            
-            InsertRowInTable insertRowInTable = new InsertRowInTable("Nehoray","Menachem", CreateSecretCode.GetNewSecretCode());
 
-            
+            //InsertRowInTable insertRowInTable = new InsertRowInTable("Nehoray","Menachem", CreateSecretCode.GetNewSecretCode());
+
+
+            if (SearchValueInMalshinonDB.GetResult("People","FirstName","Darya"))
+            {
+                Console.WriteLine("cascas");
+            }
+
 
 
         }

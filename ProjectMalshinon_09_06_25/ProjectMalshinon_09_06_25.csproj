@@ -100,8 +100,8 @@
     <Compile Include="InsertRowInTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchPersonInPeople.cs" />
-    <Compile Include="SearchSecretCodeInPeople.cs" />
+    <Compile Include="SearchingNameInMessage.cs" />
+    <Compile Include="SearchValueInMalshinonDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

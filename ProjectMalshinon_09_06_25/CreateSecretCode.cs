@@ -19,10 +19,9 @@ namespace ProjectMalshinon_09_06_25
                      
             int newSecretCode = rnd.Next(10000000, 100000000);
 
-            SearchSecretCodeInPeople searchSecretCodeInPeople = new SearchSecretCodeInPeople();
 
-   
-            while (searchSecretCodeInPeople.SecretCodeExistsInTabla(newSecretCode))
+
+            while (SearchValueInMalshinonDB.GetResult("People", "SecretCode", Convert.ToString(newSecretCode)))
             {
                 newSecretCode = rnd.Next(10000000, 100000000);
             }

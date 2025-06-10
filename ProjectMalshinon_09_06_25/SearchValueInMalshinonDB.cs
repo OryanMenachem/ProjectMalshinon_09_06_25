@@ -10,29 +10,33 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectMalshinon_09_06_25
 {
-    internal class SearchPersonInPeople : DAL
+    internal class SearchValueInMalshinonDB : DAL
     {
 
 
 
-        /// <summary>
-        /// If the first name exists in the "People" table returns true otherwise returns false.
-        /// </summary>
-        /// <param name="firstName"></param>
-        /// <returns></returns>
 
-        public bool SearchPerson(string firstName) 
+        /// <summary>
+        /// If the value exists in the "People" table returns true otherwise returns false.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="column"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private bool SearchPerson(string table, string column, string value) 
         {
         
             bool result = false;
-
-            string query = @"SELECT FirstName FROM People WHERE FirstName = @firstName;";
-
+   
+            string query = @"SELECT ";
+            query += $"{column} FROM {table} WHERE {column} = @{value};";
+           
+            //Console.WriteLine(query);
             try
             {
                 using (var cmd = new MySqlCommand(query, _conn))
                 {
-                    cmd.Parameters.AddWithValue("@FirstName", firstName);
+                    cmd.Parameters.AddWithValue(@value, value);
 
                     using (var reader = cmd.ExecuteReader())
                         if (reader.Read())
@@ -58,6 +62,21 @@ namespace ProjectMalshinon_09_06_25
             return result;
 
 
+        }
+        /// <summary>
+        /// Static method to get the result.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="column"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool GetResult(string table, string column, string value)
+        {
+            SearchValueInMalshinonDB searchValueInMalshinonDB = new SearchValueInMalshinonDB();
+
+            bool result = searchValueInMalshinonDB.SearchPerson(table, column, value);
+
+            return result;
         }
 
 
