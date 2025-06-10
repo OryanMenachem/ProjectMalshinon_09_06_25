@@ -102,10 +102,11 @@
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporterpromotion.cs" />
+    <Compile Include="ReporterPromotion.cs" />
     <Compile Include="SearchingNameInMessage.cs" />
     <Compile Include="SearchValueInMalshinonDB.cs" />
     <Compile Include="SelectFromTable.cs" />
+    <Compile Include="UpdateNumberOfReports.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
