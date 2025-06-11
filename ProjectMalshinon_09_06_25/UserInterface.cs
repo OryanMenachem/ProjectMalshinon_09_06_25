@@ -40,7 +40,7 @@ namespace ProjectMalshinon_09_06_25
             Console.ForegroundColor = ConsoleColor.Cyan;
 
 
-
+            Console.WriteLine();
             Console.WriteLine("* ********************************************* *");
             Console.WriteLine("*                                               *");
             Console.WriteLine("*                 Analysis Menu                 *");
@@ -49,7 +49,7 @@ namespace ProjectMalshinon_09_06_25
             Console.WriteLine("*                                               *");
             Console.WriteLine("* 1. Enter the name of the reporter.            *");
             Console.WriteLine("* 2. Report a target.                           *");                          
-            Console.WriteLine("* 3. Showing all potential agents               *");
+            Console.WriteLine("* 3. Showing all potential agents.              *");
             Console.WriteLine("* 4. Show all dangerous destinations.           *");
             Console.WriteLine("* 5.                                            *");
             Console.WriteLine("* 6.                                            *");
@@ -64,6 +64,7 @@ namespace ProjectMalshinon_09_06_25
         private static string GetChoice()
         {
             string choice = Console.ReadLine();
+
             Console.WriteLine("");
 
             while (choice == null)
@@ -112,11 +113,87 @@ namespace ProjectMalshinon_09_06_25
 
         private static void HandleChoice1()
         {
+            bool flag1 = true;
+            string firstName = null;
+            string lastName = null;
+
+            while (flag1)
+            {
+                Console.Write("Enter your first name: ");
+                firstName = Console.ReadLine();
+
+                Console.Write("Enter your lasr name: ");
+                lastName = Console.ReadLine();
+
+                if (firstName != null && lastName != null) { break; }
+
+
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Please fill in all fields!");
+                Console.ResetColor();
+
+              
+            }
+
+            if (!Search_Value_In_MalshinonDB.ValueExists("People", "FirstName", firstName))
+            {
+                InsertRowInTablePeople.Insert(firstName, lastName, CreateSecretCode.GetNewSecretCode());
+                Console.WriteLine($"{firstName} {lastName}, Added successfully");
+            }
+            else
+            {
+                Console.WriteLine($"{firstName} {lastName} already exists in the system.");
+            }
+
 
         }
 
         private static void HandleChoice2()
         {
+            Console.Write("Enter your firstName: ");
+            string reporterName = Console.ReadLine();
+
+            string message = null;
+            string[] fullName = new string[2];
+
+            Console.WriteLine("What do your have to report?:");
+
+            while (true)
+            {
+                message = Console.ReadLine();
+                fullName = Search_Name_In_Message.SearchName(message);
+
+                if (fullName[0] != null && fullName[1] != null) { break; }
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Please enter the full name of the terrorist");
+                Console.ResetColor();
+
+
+            }
+           
+
+
+            if (!Search_Value_In_MalshinonDB.ValueExists("People", "FirstName", fullName[0]))
+            {
+                InsertRowInTablePeople.Insert(fullName[0], fullName[1], CreateSecretCode.GetNewSecretCode(), "target");
+                Console.WriteLine($"{fullName[0]} {fullName[1]}, Added successfully");
+            }
+
+            Person reporter = SelectFromTable.GetPerson(reporterName);
+       
+
+            Person target = SelectFromTable.GetPerson(fullName[0]);
+
+            InsertRowInTableIntelReports.Insert(reporter.Id, target.Id, message);
+
+            Update_NumReports.UpdateReports(reporter.Id);
+
+            Update_NumMention.Update(target.Id);
+
+
+
 
         }
 
