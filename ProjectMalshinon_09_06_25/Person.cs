@@ -15,9 +15,22 @@ namespace ProjectMalshinon_09_06_25
         public int SecretCode { get; set; } 
 
 	    public string Type {  get; set; }
-	    public int num_reports {  get; set; }
+	    public int Num_reports {  get; set; }
 
-	    public int num_mentions {  get; set; }
+	    public int Num_mentions {  get; set; }
+
+        public Person(int id, string firstName, string lastName, int secretCode, string type = "reporter",int num_reports = 0,int num_mentions = 0) 
+        { 
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            SecretCode = secretCode;
+            Type = type;
+            Num_reports = num_reports;
+            Num_mentions = num_mentions;
+
+        
+        }
 
         
     }

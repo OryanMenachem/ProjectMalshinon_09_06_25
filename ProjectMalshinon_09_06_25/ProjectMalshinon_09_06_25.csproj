@@ -100,7 +100,8 @@
     <Compile Include="InsertRowInTableIntelReports.cs" />
     <Compile Include="InsertRowInTablePeople.cs" />
     <Compile Include="IntelReports.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="SelectBy.cs" />
+    <Compile Include="UserInterface.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="PotentialThreatChecker.cs" />
     <Compile Include="Program.cs" />

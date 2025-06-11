@@ -25,7 +25,7 @@ namespace ProjectMalshinon_09_06_25
         private void GetText(int reporter_id)
         {
             string query = @"SELECT Text FROM `intelreports` WHERE Reporter_id = @reporter_id;";
-           
+
             try
             {
 
@@ -57,29 +57,30 @@ namespace ProjectMalshinon_09_06_25
                 CloseConnection();
             }
 
-          
+
         }
 
-                   
+
         private void GetNumReports(int reporter_id)
         {
             string query = @"SELECT num_reports FROM People WHERE Id = @reporter_id;";
-            
+
             try
             {
                 OpenConnection();
 
                 var cmd = new MySqlCommand(query, _conn);
-                
+
 
                 cmd.Parameters.AddWithValue("@reporter_id", reporter_id);
 
                 var reader = cmd.ExecuteReader();
+
                 if (reader.Read())
                 {
                     num_reports = reader.GetInt32("num_reports");
                 }
-                
+
             }
             catch (MySqlException ex)
             {
@@ -93,14 +94,19 @@ namespace ProjectMalshinon_09_06_25
             {
                 CloseConnection();
             }
-        
+
         }
 
         private void PromotionToPotentialAgent(int reporter_id)
         {
             if (num_reports >= 10 && (text.Length / num_reports) >= 100)
             {
-                string query = @"UPDATE People SET Type = 'potential_agent' WHERE Id = @reporter_id;";
+                string query = @"UPDATE People
+                                SET Type = 'potential_agent' 
+                                WHERE Id = @reporter_id
+                                AND Type = 'reporter' 
+                                OR Type = 'both';";
+        
 
                 try
                 {
@@ -111,8 +117,17 @@ namespace ProjectMalshinon_09_06_25
 
                     cmd.Parameters.AddWithValue("@reporter_id", reporter_id);
 
-                    cmd.ExecuteReader();
-                  
+                    var reader =  cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        Console.WriteLine("The reporter is promoted to a potential agent.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("This person has already been flagged as a potential agent.\n");
+                    }
+                 
+
 
                 }
                 catch (MySqlException ex)
@@ -127,7 +142,6 @@ namespace ProjectMalshinon_09_06_25
                 {
                     CloseConnection();
                 }
-                Console.WriteLine("The reporter is promoted to a potential agent.");
 
             }
             else
@@ -136,6 +150,17 @@ namespace ProjectMalshinon_09_06_25
             }
         }
 
+        //public static string GetTextsOfPerson(int id)
+        //{
+
+        //    return;
+        //}
+        //public static int GetNumReportsOfPerson(int id)
+        //{
+        //    ReporterPromotion reporterPromotion = new ReporterPromotion();
+        //    GetNumReports(id);
+        //}
+
     }
-    
+
 }

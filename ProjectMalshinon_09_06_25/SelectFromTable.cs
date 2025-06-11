@@ -12,32 +12,33 @@ namespace ProjectMalshinon_09_06_25
         private Person Select(string value)
         {
 
-            Person person = new Person();
 
+        
             string query = $@"SELECT * FROM People WHERE FirstName = @value;";
 
 
             try
             {
-                using (var cmd = new MySqlCommand(query, _conn))
-                {
-                    cmd.Parameters.AddWithValue("@value", value);
+                var cmd = new MySqlCommand(query, _conn);
                 
+                cmd.Parameters.AddWithValue("@value", value);
 
-                    using (var reader = cmd.ExecuteReader())
-                        while (reader.Read())
-                        {
-                            person.Id = reader.GetInt32("Id");
-                            person.FirstName = reader.GetString("FirstName");
-                            person.LastName = reader.GetString("LastName");
-                            person.SecretCode = reader.GetInt32("SecretCode");
-                            person.Type = reader.GetString("Type");
-                            person.num_reports = reader.GetInt32("num_reports");
-                            person.num_mentions = reader.GetInt32("num_mentions");
+                var reader = cmd.ExecuteReader();
 
+                while (reader.Read())
+                {
+                    Person person = new Person(
+                    reader.GetInt32("Id"),
+                    reader.GetString("FirstName"),
+                    reader.GetString("LastName"),
+                    reader.GetInt32("SecretCode"),
+                    reader.GetString("Type"),
+                    reader.GetInt32("num_reports"),
+                    reader.GetInt32("num_mentions"));
 
-                        }
+                    return person;
                 }
+                
 
             }
             catch (MySqlException ex)
@@ -54,7 +55,7 @@ namespace ProjectMalshinon_09_06_25
             {
                 CloseConnection();
             }
-            return person;
+            return null;
 
 
         }
