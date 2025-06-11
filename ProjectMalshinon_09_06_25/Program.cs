@@ -12,11 +12,13 @@ namespace ProjectMalshinon_09_06_25
         {
 
 
+            UserInterface.Run();
+      
 
 
             //Console.WriteLine("Hello what your name? ");
 
-            string[] name = "Yuval Eshel".Split(' ');
+            //string[] name = "Yuval Eshel".Split(' ');
 
 
 
@@ -63,7 +65,7 @@ namespace ProjectMalshinon_09_06_25
             //    InsertRowInTablePeople.Insert(fullName[0], fullName[1], CreateSecretCode.GetNewSecretCode(), "target");
             //}
 
-            Person reporter = SelectFromTable.GetPerson(name[0]);
+            //Person reporter = SelectFromTable.GetPerson(name[0]);
 
 
 
@@ -77,7 +79,7 @@ namespace ProjectMalshinon_09_06_25
 
             //Update_NumMention.Update(target.Id);
 
-            ReporterPromotion reporterPromotion = new ReporterPromotion(reporter.Id);
+            //ReporterPromotion reporterPromotion = new ReporterPromotion(reporter.Id);
 
 
 
