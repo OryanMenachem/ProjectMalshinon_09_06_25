@@ -16,24 +16,24 @@ namespace ProjectMalshinon_09_06_25
             try
             {
 
-                using (var cmd = new MySqlCommand(query, _conn))
-                {
-                    cmd.Parameters.AddWithValue(@"firstName", firstName);
-                    cmd.Parameters.AddWithValue(@"lastName", lastName);
-                    cmd.Parameters.AddWithValue(@"secretCode", secretCode);
-                    cmd.Parameters.AddWithValue(@"type", type);
+                var cmd = new MySqlCommand(query, _conn);
+                
+                cmd.Parameters.AddWithValue(@"firstName", firstName);
+                cmd.Parameters.AddWithValue(@"lastName", lastName);
+                cmd.Parameters.AddWithValue(@"secretCode", secretCode);
+                cmd.Parameters.AddWithValue(@"type", type);
                   
 
-                    cmd.ExecuteNonQuery();
-                }
+                cmd.ExecuteNonQuery();
+                
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"MySQL {ex.GetType().Name} ---- {ex.Message}. class: InsertRowInTablePeople method: constructor");
+                Console.WriteLine($"MySQL Exception {ex.Message}. class: InsertRowInTablePeople method: constructor");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"General Error: {ex.Message}. class: InsertRowInTablePeople method: constructor");
+                Console.WriteLine($"General Exception: {ex.Message}. class: InsertRowInTablePeople method: constructor");
             }
             finally
             {

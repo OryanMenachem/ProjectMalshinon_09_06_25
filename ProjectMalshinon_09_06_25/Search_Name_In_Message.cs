@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectMalshinon_09_06_25
 {
-    internal class SearchingNameInMessage
+    internal class Search_Name_In_Message
     {
         public static string[] SearchName(string message)
         {

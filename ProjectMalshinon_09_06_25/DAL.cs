@@ -49,7 +49,7 @@ namespace ProjectMalshinon_09_06_25
             if (_conn != null && _conn.State == System.Data.ConnectionState.Closed)  // Makes sure the connection is closed.
             {
                 _conn.Open();
-                Console.WriteLine("Connection successful.");
+                Console.WriteLine("Connection successful.\n");
             }
             return _conn;
 
@@ -64,11 +64,11 @@ namespace ProjectMalshinon_09_06_25
         /// </summary>
         public void CloseConnection() 
         {
-            if (_conn.State == System.Data.ConnectionState.Open) // Makes sure the connection is open.
+            if (_conn != null &&  _conn.State == System.Data.ConnectionState.Open) // Makes sure the connection is open.
             {
                 _conn.Close(); 
                 _conn = null;
-                Console.WriteLine("The connection was successfully disconnected.");
+                Console.WriteLine("The connection was successfully disconnected.\n");
             }
         }
 

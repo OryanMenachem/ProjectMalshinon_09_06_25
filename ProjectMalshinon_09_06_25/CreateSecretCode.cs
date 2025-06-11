@@ -21,7 +21,7 @@ namespace ProjectMalshinon_09_06_25
 
 
 
-            while (SearchValueInMalshinonDB.GetResult("People", "SecretCode", Convert.ToString(newSecretCode)))
+            while (Search_Value_In_MalshinonDB.ValueExists("People", "SecretCode", Convert.ToString(newSecretCode)))
             {
                 newSecretCode = rnd.Next(10000000, 100000000);
             }

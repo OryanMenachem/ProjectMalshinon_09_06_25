@@ -12,152 +12,130 @@ namespace ProjectMalshinon_09_06_25
 {
     internal class ReporterPromotion : DAL
     {
+        string text = "";
+        int num_reports;
 
-        string FirstName = "";
-        int Reporter_id = 0;
-
-        int NumWordsInAllReports = 0;
-
-        int NumReports = 0;
-
-        public ReporterPromotion(string firstName, int reporter_id)
+        public ReporterPromotion(int reporter_id)
         {
-            FirstName = firstName;
-            Reporter_id = reporter_id;
+            GetText(reporter_id);
+            GetNumReports(reporter_id);
+            PromotionToPotentialAgent(reporter_id);
         }
 
-
-
-        /// <summary>
-        /// Check that the number of reports of the reporter is equal to or greater than ten.
-        /// </summary>
-        /// <param name="firstName"></param>
-        /// <returns></returns>
-        private void CheckingNumberReports()
+        private void GetText(int reporter_id)
         {
-            string query = $@"SELECT num_reports FROM People WHERE FirstName = @FirstName;";
-
+            string query = @"SELECT Text FROM `intelreports` WHERE Reporter_id = @reporter_id;";
+           
             try
             {
-                using (var cmd = new MySqlCommand(query, _conn))
+
+                var cmd = new MySqlCommand(query, _conn);
+
+
+                cmd.Parameters.AddWithValue("@reporter_id", reporter_id);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    cmd.Parameters.AddWithValue("@FirstName", FirstName);
-
-
-                    using (var reader = cmd.ExecuteReader())
-                        if (reader.Read())
-                        {
-                            NumReports = reader.GetInt32("num_reports");
-                        }
-
-
-
+                    text += reader.GetString("Text");
                 }
+
+
+
 
             }
             catch (MySqlException ex)
             {
-
-                Console.WriteLine($"My SQL exception: {ex.Message}. class: SelectFromTable method: Select");
+                Console.WriteLine($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: GetText");
             }
             catch (Exception ex)
             {
-
-                Console.WriteLine($"General exception: {ex.Message}. class: SelectFromTable method: Select ");
+                Console.WriteLine($"General Exception: {ex.Message}. class: ReporterPromotion method: GetText");
             }
             finally
             {
                 CloseConnection();
             }
 
-
+          
         }
 
-        private void CheckingTheNumberOfWordsInReports()
+                   
+        private void GetNumReports(int reporter_id)
         {
-            string query = $@"SELECT Text FROM IntelReports WHERE Reporter_id = @Reporter_id;";
-
-            string reports = "";
-
-
+            string query = @"SELECT num_reports FROM People WHERE Id = @reporter_id;";
+            
             try
             {
-                using (var cmd = new MySqlCommand(query, _conn))
+                OpenConnection();
+
+                var cmd = new MySqlCommand(query, _conn);
+                
+
+                cmd.Parameters.AddWithValue("@reporter_id", reporter_id);
+
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
                 {
-                    cmd.Parameters.AddWithValue("@Reporter_id", Reporter_id);
-
-
-                    using (var reader = cmd.ExecuteReader())
-                        while (reader.Read())
-                        {
-                            reports += reader.GetString("Text");
-                        }
-
-
-
+                    num_reports = reader.GetInt32("num_reports");
                 }
-
+                
             }
             catch (MySqlException ex)
             {
-
-                Console.WriteLine($"My SQL exception: {ex.Message}. class: SelectFromTable method: Select");
+                Console.WriteLine($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: GetNumReports");
             }
             catch (Exception ex)
             {
-
-                Console.WriteLine($"General exception: {ex.Message}. class: SelectFromTable method: Select ");
+                Console.WriteLine($"General Exception: {ex.Message}. class: ReporterPromotion method: GetNumReports");
             }
             finally
             {
                 CloseConnection();
             }
-
-   
-            NumWordsInAllReports = reports.Length;
-
-
-
-
-
-
-
+        
         }
 
-        public void Reporter_promotion_to_potential_agent()
+        private void PromotionToPotentialAgent(int reporter_id)
         {
-
-            if (NumReports >= 10 && (NumWordsInAllReports / NumReports) >= 100)
+            if (num_reports >= 10 && (text.Length / num_reports) >= 100)
             {
-                string query = @"UPDATE people SET Type = potential_agent WHERE FirstName = @FirstName;";
+                string query = @"UPDATE People SET Type = 'potential_agent' WHERE Id = @reporter_id;";
 
                 try
                 {
+                    OpenConnection();
 
-                    using (var cmd = new MySqlCommand(query, _conn))
-                    {
+                    var cmd = new MySqlCommand(query, _conn);
 
-                        cmd.Parameters.AddWithValue("@FirstName", FirstName);
-                        cmd.ExecuteNonQuery();
-                    }
+
+                    cmd.Parameters.AddWithValue("@reporter_id", reporter_id);
+
+                    cmd.ExecuteReader();
+                  
+
                 }
                 catch (MySqlException ex)
                 {
-                    Console.WriteLine($"MySQL Error: {ex.Message}. class: InsertRowInTablePeople method: constructor");
+                    Console.WriteLine($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: PromotionToPotentialAgent");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"General Error: {ex.Message}. class: InsertRowInTablePeople method: constructor");
+                    Console.WriteLine($"General Exception: {ex.Message}. class: ReporterPromotion method: PromotionToPotentialAgent");
                 }
                 finally
                 {
                     CloseConnection();
                 }
-                Console.WriteLine($"The reporter {FirstName} is promoted to a potential agent.");
+                Console.WriteLine("The reporter is promoted to a potential agent.");
 
             }
-
+            else
+            {
+                Console.WriteLine("Didn't bring enough information to become a potential agent.");
+            }
         }
 
     }
+    
 }
