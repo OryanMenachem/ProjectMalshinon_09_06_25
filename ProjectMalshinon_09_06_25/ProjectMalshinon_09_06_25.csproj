@@ -97,10 +97,11 @@
   <ItemGroup>
     <Compile Include="CreateSecretCode.cs" />
     <Compile Include="DAL.cs" />
+    <Compile Include="FromIntelReportsSelectBy.cs" />
     <Compile Include="InsertRowInTableIntelReports.cs" />
     <Compile Include="InsertRowInTablePeople.cs" />
     <Compile Include="IntelReports.cs" />
-    <Compile Include="SelectBy.cs" />
+    <Compile Include="FromPeopleSelectBy.cs" />
     <Compile Include="UserInterface.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="PotentialThreatChecker.cs" />

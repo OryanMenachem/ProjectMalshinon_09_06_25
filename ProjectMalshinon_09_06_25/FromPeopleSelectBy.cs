@@ -7,21 +7,21 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectMalshinon_09_06_25
 {
-    internal class SelectBy : DAL
+    internal class FromPeopleSelectBy : DAL
     {
-        private  List<Person> SelectByType(string type)
+        private  List<Person> SelectPersonByValue(string value)
         {
 
             List<Person> personList = new List<Person>();
 
-            string query = $@"SELECT * FROM People WHERE Type = @type;";
+            string query = $@"SELECT * FROM People WHERE Type = @value;";
 
 
             try
             {
                 using (var cmd = new MySqlCommand(query, _conn))
                 {
-                    cmd.Parameters.AddWithValue("@type", type);
+                    cmd.Parameters.AddWithValue("@value", value);
 
 
                     using (var reader = cmd.ExecuteReader())
@@ -61,9 +61,9 @@ namespace ProjectMalshinon_09_06_25
 
         public static List<Person> GetSelectByType(string type)
         {
-            SelectBy selectBy = new SelectBy();
+            FromPeopleSelectBy selectBy = new FromPeopleSelectBy();
 
-            return selectBy.SelectByType(type);
+            return selectBy.SelectPersonByValue(type);
         }
     }
 }
