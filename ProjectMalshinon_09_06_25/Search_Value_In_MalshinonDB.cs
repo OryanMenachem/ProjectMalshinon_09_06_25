@@ -10,7 +10,7 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectMalshinon_09_06_25
 {
-    internal class SearchValueInMalshinonDB : DAL
+    internal class Search_Value_In_MalshinonDB : DAL
     {
 
 
@@ -27,33 +27,36 @@ namespace ProjectMalshinon_09_06_25
         {
         
             bool result = false;
-   
-            string query = @"SELECT ";
-            query += $"{column} FROM {table} WHERE {column} = @{value};";
+
+            string query = $@"SELECT {column} FROM {table} WHERE {column} = @value;";
            
+
             //Console.WriteLine(query);
             try
             {
                 using (var cmd = new MySqlCommand(query, _conn))
                 {
-                    cmd.Parameters.AddWithValue(@value, value);
-
+                    cmd.Parameters.AddWithValue("@value", value);
                     using (var reader = cmd.ExecuteReader())
+                    {
                         if (reader.Read())
                         {
                             result = true;
                         }
+                    }
+                    
                 }
+           
            
 
             }
             catch (MySqlException ex) 
             {
-                Console.WriteLine($"My SQL exception: {ex.Message}");
+                Console.WriteLine($"My SQL exception:  {ex}. class: Search_Value_In_MalshinonDB method: SearchPerson");
             }
             catch (Exception ex) 
             {
-                Console.WriteLine($"General exception: {ex.Message}");
+                Console.WriteLine($"General exception: {ex.Message}.  class: Search_Value_In_MalshinonDB method: SearchPerson");
             }
             finally 
             {
@@ -70,9 +73,9 @@ namespace ProjectMalshinon_09_06_25
         /// <param name="column"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool GetResult(string table, string column, string value)
+        public static bool ValueExists(string table, string column, string value)
         {
-            SearchValueInMalshinonDB searchValueInMalshinonDB = new SearchValueInMalshinonDB();
+            Search_Value_In_MalshinonDB searchValueInMalshinonDB = new Search_Value_In_MalshinonDB();
 
             bool result = searchValueInMalshinonDB.SearchPerson(table, column, value);
 
