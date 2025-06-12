@@ -97,21 +97,24 @@
   <ItemGroup>
     <Compile Include="CreateSecretCode.cs" />
     <Compile Include="DAL.cs" />
+    <Compile Include="FromIntelReportsSelectBy.cs" />
+    <Compile Include="FullName.cs" />
     <Compile Include="InsertRowInTableIntelReports.cs" />
-    <Compile Include="InsertRowInTablePeople.cs" />
+    <Compile Include="InsertPersonInPeople.cs" />
     <Compile Include="IntelReports.cs" />
-    <Compile Include="SelectBy.cs" />
+    <Compile Include="FromPeopleSelectBy.cs" />
+    <Compile Include="InputMessage.cs" />
+    <Compile Include="TextColors.cs" />
     <Compile Include="UserInterface.cs" />
     <Compile Include="Person.cs" />
-    <Compile Include="PotentialThreatChecker.cs" />
+    <Compile Include="SelectByNumMentions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReporterPromotion.cs" />
-    <Compile Include="Search_Name_In_Message.cs" />
-    <Compile Include="Search_Value_In_MalshinonDB.cs" />
-    <Compile Include="SelectFromTable.cs" />
-    <Compile Include="Update_NumReports.cs" />
-    <Compile Include="Update_NumMention.cs" />
+    <Compile Include="SearchNameInMessage.cs" />
+    <Compile Include="SearchValueInMalshinonDB.cs" />
+    <Compile Include="UpdateNumReports.cs" />
+    <Compile Include="UpdateNumMention.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -17,7 +17,7 @@ namespace ProjectMalshinon_09_06_25
         /// <summary>
         /// Runs the method - OpenConnection().
         /// </summary>
-        public DAL() 
+        protected DAL() 
         {
             try
             {
@@ -39,7 +39,7 @@ namespace ProjectMalshinon_09_06_25
         ///  Creates a new connection to the database and opens it.
         /// </summary>
         /// <returns>MySqlConnection value</returns>
-        public MySqlConnection OpenConnection() 
+        protected MySqlConnection OpenConnection() 
         {
             if (_conn == null)
             {
@@ -62,7 +62,7 @@ namespace ProjectMalshinon_09_06_25
         /// <summary>
         /// Closes the connection to the database.
         /// </summary>
-        public void CloseConnection() 
+        protected void CloseConnection() 
         {
             if (_conn != null &&  _conn.State == System.Data.ConnectionState.Open) // Makes sure the connection is open.
             {

@@ -10,7 +10,7 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectMalshinon_09_06_25
 {
-    internal class Search_Value_In_MalshinonDB : DAL
+    internal class SearchValueInMalshinonDB : DAL
     {
 
 
@@ -31,7 +31,7 @@ namespace ProjectMalshinon_09_06_25
             string query = $@"SELECT {column} FROM {table} WHERE {column} = @value;";
            
 
-            //Console.WriteLine(query);
+    
             try
             {
                 using (var cmd = new MySqlCommand(query, _conn))
@@ -52,11 +52,11 @@ namespace ProjectMalshinon_09_06_25
             }
             catch (MySqlException ex) 
             {
-                Console.WriteLine($"My SQL exception:  {ex}. class: Search_Value_In_MalshinonDB method: SearchPerson");
+                TextColors.ErrorColor($"My SQL exception:  {ex}. class: SearchValueInMalshinonDB method: SearchPerson");
             }
             catch (Exception ex) 
             {
-                Console.WriteLine($"General exception: {ex.Message}.  class: Search_Value_In_MalshinonDB method: SearchPerson");
+                TextColors.ErrorColor($"General exception: {ex.Message}.  class: SearchValueInMalshinonDB method: SearchPerson");
             }
             finally 
             {
@@ -75,7 +75,7 @@ namespace ProjectMalshinon_09_06_25
         /// <returns></returns>
         public static bool ValueExists(string table, string column, string value)
         {
-            Search_Value_In_MalshinonDB searchValueInMalshinonDB = new Search_Value_In_MalshinonDB();
+            SearchValueInMalshinonDB searchValueInMalshinonDB = new SearchValueInMalshinonDB();
 
             bool result = searchValueInMalshinonDB.SearchPerson(table, column, value);
 
