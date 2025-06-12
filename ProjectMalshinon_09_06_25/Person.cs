@@ -32,7 +32,25 @@ namespace ProjectMalshinon_09_06_25
         
         }
 
-        
+        public override string ToString()
+        {
+            return $"id: {Id}\n" +
+                $"firstName: {FirstName}\n" +
+                $"lastName:  {LastName}\n" +
+                $"secretCode: {SecretCode}\n" +
+                $"type:  {Type}\n" +
+                $"num_reports: {Num_reports}\n" +
+                $"num_mentions:  {Num_mentions}\n";
+
+        }
+
+
+
+
+
+
+
+
     }
 }
 

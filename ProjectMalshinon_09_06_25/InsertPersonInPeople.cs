@@ -7,9 +7,9 @@ using MySql.Data.MySqlClient;
 
 namespace ProjectMalshinon_09_06_25
 {
-    internal class InsertRowInTablePeople : DAL
+    internal class InsertPersonInPeople : DAL
     {
-        private InsertRowInTablePeople(string firstName, string lastName, int secretCode, string type = "reporter") 
+        private InsertPersonInPeople(string firstName, string lastName, int secretCode, string type = "reporter") 
         {
             string query = @"INSERT INTO People(FirstName, LastName, SecretCode, Type) VALUES (@firstName, @lastName, @secretCode, @type)";
 
@@ -29,23 +29,30 @@ namespace ProjectMalshinon_09_06_25
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"MySQL Exception {ex.Message}. class: InsertRowInTablePeople method: constructor");
+                TextColors.ErrorColor($"MySQL Exception {ex.Message}. class: InsertPersonInPeople method: constructor");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"General Exception: {ex.Message}. class: InsertRowInTablePeople method: constructor");
+                TextColors.ErrorColor($"General Exception: {ex.Message}. class: InsertPersonInPeople method: constructor");
             }
             finally
             {
                 CloseConnection();
             }
-            Console.WriteLine("Added successfully.");
+            TextColors.SuccessfullColor($"{firstName +" "+ lastName}, Added successfully\n");
         }
 
         public static void Insert(string firstName, string lastName, int secretCode, string type = "reporter")
         {
-            InsertRowInTablePeople insertRowInTable = new InsertRowInTablePeople(firstName, lastName, secretCode, type);
-            
+            if (!SearchValueInMalshinonDB.ValueExists("People", "FirstName", firstName))
+            {
+                InsertPersonInPeople insertRowInTable = new InsertPersonInPeople(firstName, lastName, secretCode, type);
+               
+            }
+            else
+            {
+                TextColors.SuccessfullColor($"{firstName +" "+ lastName} already exists in the system.");
+            }
         }
     
     }

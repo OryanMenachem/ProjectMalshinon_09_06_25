@@ -9,61 +9,127 @@ namespace ProjectMalshinon_09_06_25
 {
     internal class FromPeopleSelectBy : DAL
     {
-        private  List<Person> SelectPersonByValue(string value)
+
+        private Person SelectByFirstName(string firstName)
         {
 
-            List<Person> personList = new List<Person>();
-
-            string query = $@"SELECT * FROM People WHERE Type = @value;";
+            string query = $@"SELECT * FROM People WHERE FirstName = @firstName;";
 
 
             try
             {
-                using (var cmd = new MySqlCommand(query, _conn))
+                var cmd = new MySqlCommand(query, _conn);
+
+                cmd.Parameters.AddWithValue("@firstName", firstName);
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    cmd.Parameters.AddWithValue("@value", value);
+                    Person person = new Person(
+                    reader.GetInt32("Id"),
+                    reader.GetString("FirstName"),
+                    reader.GetString("LastName"),
+                    reader.GetInt32("SecretCode"),
+                    reader.GetString("Type"),
+                    reader.GetInt32("num_reports"),
+                    reader.GetInt32("num_mentions"));
 
-
-                    using (var reader = cmd.ExecuteReader())
-                        while (reader.Read())
-                        {
-                            personList.Add(new Person(
-                            reader.GetInt32("Id"),
-                            reader.GetString("FirstName"),
-                            reader.GetString("LastName"),
-                            reader.GetInt32("SecretCode"),
-                            reader.GetString("Type"),
-                            reader.GetInt32("num_reports"),
-                            reader.GetInt32("num_mentions")));
-                             
-                            
-
-                        }
+                    return person;
                 }
+
 
             }
             catch (MySqlException ex)
             {
 
-                Console.WriteLine($"My SQL exception: {ex.Message}. class: SelectBy method: SelectByType");
+                TextColors.ErrorColor($"My SQL exception: {ex.Message}. class: FromPeopleSelectBy method: SelectByFirstName");
             }
             catch (Exception ex)
             {
 
-                Console.WriteLine($"General exception: {ex.Message}. class: SelectBy method: SelectByType ");
+                TextColors.ErrorColor($"General exception: {ex.Message}. class: FromPeopleSelectBy method: SelectByFirstName ");
             }
             finally
             {
                 CloseConnection();
             }
+            return null;
+
+
+        }
+        /// <summary>
+        /// Static method to get the result.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="column"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static Person GetSelectByFirstName(string value)
+        {
+            FromPeopleSelectBy fromPeopleSelectBy = new FromPeopleSelectBy();
+
+            Person person = fromPeopleSelectBy.SelectByFirstName(value);
+
+            return person;
+        }
+
+
+
+        private  List<Person> SelectPersonByType(string type)
+        {
+
+            List<Person> personList = new List<Person>();
+
+            string query = $@"SELECT * FROM People WHERE Type = @type;";
+
+
+            try
+            {
+                var cmd = new MySqlCommand(query, _conn);
+                
+                cmd.Parameters.AddWithValue("@type", type);
+
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    personList.Add(new Person(
+                    reader.GetInt32("Id"),
+                    reader.GetString("FirstName"),
+                    reader.GetString("LastName"),
+                    reader.GetInt32("SecretCode"),
+                    reader.GetString("Type"),
+                    reader.GetInt32("num_reports"),
+                    reader.GetInt32("num_mentions")));
+                }
+                            
+            }
+
+            catch (MySqlException ex)
+            {
+
+                TextColors.ErrorColor($"My SQL exception: {ex.Message}. class: FromPeopleSelectBy method: SelectPersonByType");
+            }
+            catch (Exception ex)
+            {
+
+                TextColors.ErrorColor($"General exception: {ex.Message}. class: FromPeopleSelectBy method: SelectPersonByType ");
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
             return personList;
         }
 
         public static List<Person> GetSelectByType(string type)
         {
-            FromPeopleSelectBy selectBy = new FromPeopleSelectBy();
+            FromPeopleSelectBy fromPeopleSelectBy = new FromPeopleSelectBy();
 
-            return selectBy.SelectPersonByValue(type);
+            return fromPeopleSelectBy.SelectPersonByType(type);
         }
     }
 }

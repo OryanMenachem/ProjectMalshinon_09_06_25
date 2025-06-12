@@ -46,11 +46,11 @@ namespace ProjectMalshinon_09_06_25
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: GetText");
+                TextColors.ErrorColor($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: GetText");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"General Exception: {ex.Message}. class: ReporterPromotion method: GetText");
+                TextColors.ErrorColor($"General Exception: {ex.Message}. class: ReporterPromotion method: GetText");
             }
             finally
             {
@@ -84,7 +84,7 @@ namespace ProjectMalshinon_09_06_25
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: GetNumReports");
+                TextColors.ErrorColor($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: GetNumReports");
             }
             catch (Exception ex)
             {
@@ -120,11 +120,11 @@ namespace ProjectMalshinon_09_06_25
                     var reader =  cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        Console.WriteLine("The reporter is promoted to a potential agent.");
+                        TextColors.SuccessfullColor("The reporter is promoted to a potential agent.");
                     }
                     else
                     {
-                        Console.WriteLine("This person has already been flagged as a potential agent.\n");
+                        TextColors.SuccessfullColor("This person has already been flagged as a potential agent.\n");
                     }
                  
 
@@ -132,11 +132,11 @@ namespace ProjectMalshinon_09_06_25
                 }
                 catch (MySqlException ex)
                 {
-                    Console.WriteLine($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: PromotionToPotentialAgent");
+                    TextColors.ErrorColor($"MySQL Exception: {ex.Message}. class: ReporterPromotion method: PromotionToPotentialAgent");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"General Exception: {ex.Message}. class: ReporterPromotion method: PromotionToPotentialAgent");
+                    TextColors.ErrorColor($"General Exception: {ex.Message}. class: ReporterPromotion method: PromotionToPotentialAgent");
                 }
                 finally
                 {
@@ -146,7 +146,7 @@ namespace ProjectMalshinon_09_06_25
             }
             else
             {
-                Console.WriteLine("Didn't bring enough information to become a potential agent.");
+                TextColors.SuccessfullColor("Didn't bring enough information to become a potential agent.");
             }
         }
 

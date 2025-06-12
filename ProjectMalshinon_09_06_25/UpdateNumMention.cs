@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
 
 namespace ProjectMalshinon_09_06_25
 {
-    internal class Update_NumReports : DAL
+    internal class UpdateNumMention : DAL
     {
-        private Update_NumReports(int id) 
+        private UpdateNumMention(int id)
         {
-            string query = @"UPDATE People SET num_reports = num_reports + 1 WHERE Id = @id;";
+            string query = @"UPDATE People SET num_mentions = num_mentions + 1 WHERE Id = @id;";
 
             try
             {
@@ -26,23 +25,22 @@ namespace ProjectMalshinon_09_06_25
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"MySQL Exception: {ex.Message}. class: UpdateNumberOfReports method: constructor");
+                TextColors.ErrorColor($"MySQL Exception: {ex.Message}. class: UpdateNumMention method: constructor");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"General Exception: {ex.Message}. class: UpdateNumberOfReports method: constructor");
+                TextColors.ErrorColor($"General Exception: {ex.Message}. class: UpdateNumMention method: constructor");
             }
             finally
             {
                 CloseConnection();
             }
         }
-        public static void UpdateReports(int id)
+        public static void Update(int id)
         {
-            Update_NumReports updateNumberOfReports = new Update_NumReports(id);
+            UpdateNumMention updateNumMention = new UpdateNumMention(id);
 
-            Console.WriteLine("Num of reports updated successfully\n");
+            TextColors.SuccessfullColor("Num of Mention updated successfully\n");
         }
-
     }
 }

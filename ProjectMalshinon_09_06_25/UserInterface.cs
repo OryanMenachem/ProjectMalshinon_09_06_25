@@ -15,14 +15,14 @@ namespace ProjectMalshinon_09_06_25
         
         public static void Run()
         {
-            Console.WriteLine("Welcome to the Malshinon software");
+            Console.WriteLine("Welcome to the Malshinon software\n");
             Console.WriteLine("Please select one of the following options:\n");
 
-
+            
             while (flag)
             {
                 ShowMenu();
-                MainHandleChoice(GetChoice());
+                MainHandleChoice(Console.ReadLine());
             }
         }
 
@@ -51,33 +51,24 @@ namespace ProjectMalshinon_09_06_25
             Console.WriteLine("* 2. Report a target.                           *");                          
             Console.WriteLine("* 3. Showing all potential agents.              *");
             Console.WriteLine("* 4. Show all dangerous destinations.           *");
-            Console.WriteLine("* 5.                                            *");
+            Console.WriteLine("* 5. Show all people who have been reported     *");
+            Console.WriteLine("*    more than twenty times.                    *");
             Console.WriteLine("* 6.                                            *");
             Console.WriteLine("* 7. Exit                                       *");
+            Console.WriteLine("*                                               *");
             Console.WriteLine("* ********************************************* *");
+
 
             Console.ResetColor();
 
             Console.WriteLine();
         }
 
-        private static string GetChoice()
-        {
-            string choice = Console.ReadLine();
-
-            Console.WriteLine("");
-
-            while (choice == null)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Please choice\n");
-                Console.ResetColor();
-                choice = Console.ReadLine();
-            }
-            return choice;
-        }
+          
         private static void MainHandleChoice(string choice)
         {
+            Console.WriteLine();
+
             switch (choice)
             {
                 case "1":
@@ -104,93 +95,48 @@ namespace ProjectMalshinon_09_06_25
 
 
                 default:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Please enter a valid input!\n");
-                    Console.ResetColor();
-                    break;
+                TextColors.ErrorColor("Please enter a valid input!");
+                MainHandleChoice(Console.ReadLine());
+                break;
+            
             }
         }
 
         private static void HandleChoice1()
         {
-            bool flag1 = true;
-            string firstName = null;
-            string lastName = null;
-
-            while (flag1)
-            {
-                Console.Write("Enter your first name: ");
-                firstName = Console.ReadLine();
-
-                Console.Write("Enter your lasr name: ");
-                lastName = Console.ReadLine();
-
-                if (firstName != null && lastName != null) { break; }
-
-
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Please fill in all fields!");
-                Console.ResetColor();
-
-              
-            }
-
-            if (!Search_Value_In_MalshinonDB.ValueExists("People", "FirstName", firstName))
-            {
-                InsertRowInTablePeople.Insert(firstName, lastName, CreateSecretCode.GetNewSecretCode());
-                Console.WriteLine($"{firstName} {lastName}, Added successfully");
-            }
-            else
-            {
-                Console.WriteLine($"{firstName} {lastName} already exists in the system.");
-            }
-
-
+            string[] fullName = { FullName.FirstName(), FullName.LastName() };
+       
+            InsertPersonInPeople.Insert(fullName[0], fullName[1], CreateSecretCode.GetNewSecretCode());
         }
+         
+               
+            
+
 
         private static void HandleChoice2()
         {
-            Console.Write("Enter your firstName: ");
-            string reporterName = Console.ReadLine();
+            string[] reporterName = {FullName.FirstName(), FullName.LastName()};
 
-            string message = null;
-            string[] fullName = new string[2];
+            string message = InputMessage.GetMessage();
 
-            Console.WriteLine("What do your have to report?:");
-
-            while (true)
-            {
-                message = Console.ReadLine();
-                fullName = Search_Name_In_Message.SearchName(message);
-
-                if (fullName[0] != null && fullName[1] != null) { break; }
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Please enter the full name of the terrorist");
-                Console.ResetColor();
+            string[] fullName = SearchNameInMessage.SearchName(message);  // 
+         
 
 
-            }
-           
+            InsertPersonInPeople.Insert(fullName[0], fullName[1], CreateSecretCode.GetNewSecretCode(), "target"); //
+               
+          
 
-
-            if (!Search_Value_In_MalshinonDB.ValueExists("People", "FirstName", fullName[0]))
-            {
-                InsertRowInTablePeople.Insert(fullName[0], fullName[1], CreateSecretCode.GetNewSecretCode(), "target");
-                Console.WriteLine($"{fullName[0]} {fullName[1]}, Added successfully");
-            }
-
-            Person reporter = SelectFromTable.GetPerson(reporterName);
+            Person reporter = FromPeopleSelectBy.GetSelectByFirstName(reporterName[0]); 
        
+            Person target = FromPeopleSelectBy.GetSelectByFirstName(fullName[0]);
 
-            Person target = SelectFromTable.GetPerson(fullName[0]);
 
-            InsertRowInTableIntelReports.Insert(reporter.Id, target.Id, message);
+            InsertRowInTableIntelReports.Insert(reporter.Id, target.Id, message); //
 
-            Update_NumReports.UpdateReports(reporter.Id);
+            UpdateNumReports.UpdateReports(reporter.Id); //
 
-            Update_NumMention.Update(target.Id);
+            UpdateNumMention.Update(target.Id); //
 
 
 
@@ -245,7 +191,23 @@ namespace ProjectMalshinon_09_06_25
         }
         private static void HandleChoice5()
         {
+            List <Person> personList = SelectByNumMentions.GetPersonList();
 
+            Console.WriteLine($"{personList.Count} dangerous targets found\n");
+
+        
+
+            foreach (Person person in personList)
+            {
+                Console.WriteLine("\n--------------------\n");
+                Console.WriteLine(person);
+                Console.WriteLine("\n--------------------\n");
+             
+            }
+
+            
+
+            
         }
         private static void HandleChoice6()
         {
@@ -253,7 +215,10 @@ namespace ProjectMalshinon_09_06_25
         }
         private static void HandleChoice7()
         {
-            Console.WriteLine("Good bye");
+            Console.Clear();
+
+            TextColors.SuccessfullColor("\nGood bye");
+
             flag = false;
         }
     

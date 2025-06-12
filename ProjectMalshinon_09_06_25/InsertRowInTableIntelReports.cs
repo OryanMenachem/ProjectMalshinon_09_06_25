@@ -17,30 +17,32 @@ namespace ProjectMalshinon_09_06_25
             try
             {
 
-                using (var cmd = new MySqlCommand(query, _conn))
-                {
-                    cmd.Parameters.AddWithValue(@"reporter_id", reporter_id);
-                    cmd.Parameters.AddWithValue(@"target_id", target_id);
-                    cmd.Parameters.AddWithValue(@"text", text);
+                var cmd = new MySqlCommand(query, _conn);
+                
+                cmd.Parameters.AddWithValue(@"reporter_id", reporter_id);
+                cmd.Parameters.AddWithValue(@"target_id", target_id);
+                cmd.Parameters.AddWithValue(@"text", text);
 
-                    cmd.ExecuteNonQuery();
-                }
+                cmd.ExecuteNonQuery();
+
+                TextColors.SuccessfullColor("The report was successfully added\n");
+
+
             }
             catch (MySqlException ex)
             {
                
-                Console.WriteLine($"MySQL Error: {ex.Message}. class: InsertRowInTableIntelReports method: constructor");
+                TextColors.ErrorColor($"MySQL Error: {ex.Message}. class: InsertRowInTableIntelReports method: constructor");
             }
             catch (Exception ex)
             {
             
-                Console.WriteLine($"General Error: {ex.Message}. class: InsertRowInTableIntelReports method: constructor");
+                TextColors.ErrorColor($"General Error: {ex.Message}. class: InsertRowInTableIntelReports method: constructor");
             }
             finally
             {
                 CloseConnection();
             }
-            Console.WriteLine("Added successfully.");
         }
 
         public static void Insert(int reporter_id, int target_id, string text)
